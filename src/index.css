@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  
+  /* ═══════════════════════════════════════════ */
+  /* Krishna Color Palette                       */
+  /* ═══════════════════════════════════════════ */
+  --color-royal-purple: #1a0a3e;
+  --color-deep-purple: #0d0520;
+  --color-mid-purple: #2d1b69;
+  --color-light-purple: #3d2b7a;
+  --color-divine-gold: #d4a843;
+  --color-gold-light: #f0d68a;
+  --color-gold-dark: #a07c2e;
+  --color-gold-shimmer: #e8c462;
+  --color-peacock-blue: #1a4a6e;
+  --color-peacock-green: #1a6e3e;
+  --color-peacock-teal: #0e5e5e;
+  --color-cream: #faf5e8;
+  --color-warm-white: #f8f4ee;
+  --color-deep-black: #0a0a0a;
+  --color-soft-black: #1a1a1a;
+}
+
+/* ═══════════════════════════════════════════ */
+/* Base Styles                                 */
+/* ═══════════════════════════════════════════ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-warm-white);
+  color: var(--color-deep-black);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+.dark body {
+  background-color: var(--color-deep-black);
+  color: var(--color-warm-white);
+}
+
+::selection {
+  background-color: rgba(212, 168, 67, 0.3);
+  color: var(--color-deep-black);
+}
+
+/* ═══════════════════════════════════════════ */
+/* Custom Scrollbar                            */
+/* ═══════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--color-divine-gold), var(--color-royal-purple));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--color-gold-dark), var(--color-mid-purple));
+}
+
+/* ═══════════════════════════════════════════ */
+/* Keyframe Animations                         */
+/* ═══════════════════════════════════════════ */
+
+/* Gold shimmer effect for CTAs */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Floating animation for peacock feather */
+@keyframes featherFloat {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(3px) rotate(0.5deg); }
+  50% { transform: translateX(-2px) rotate(-0.3deg); }
+  75% { transform: translateX(4px) rotate(0.4deg); }
+}
+
+/* Pulse for WhatsApp button */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Glow effect */
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 168, 67, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(212, 168, 67, 0.4); }
+}
+
+/* Fade in up animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ornamental divider animation */
+@keyframes expandLine {
+  from { width: 0; }
+  to { width: 80px; }
+}
+
+/* Announcement Banner scroll */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ═══════════════════════════════════════════ */
+/* Utility Classes                             */
+/* ═══════════════════════════════════════════ */
+
+/* Gold shimmer button */
+.btn-gold-shimmer {
+  background: linear-gradient(
+    110deg,
+    var(--color-divine-gold) 0%,
+    var(--color-gold-light) 25%,
+    var(--color-divine-gold) 50%,
+    var(--color-gold-shimmer) 75%,
+    var(--color-divine-gold) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  color: var(--color-deep-purple);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-gold-shimmer:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(212, 168, 67, 0.4);
+}
+
+/* Glass morphism */
+.glass {
+  background: rgba(26, 10, 62, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 168, 67, 0.15);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 168, 67, 0.1);
+}
+
+/* Ornamental divider */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  height: 1px;
+  width: 60px;
+  background: linear-gradient(to right, transparent, var(--color-divine-gold), transparent);
+}
+
+/* Gold text gradient */
+.text-gold-gradient {
+  background: linear-gradient(135deg, var(--color-gold-light), var(--color-divine-gold), var(--color-gold-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Peacock feather parallax container */
+.peacock-feather {
+  position: fixed;
+  right: 20px;
+  top: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0.12;
+  transition: opacity 0.5s ease;
+  animation: featherFloat 8s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .peacock-feather {
+    opacity: 0.06;
+    right: 5px;
+  }
+}
+
+/* ═══════════════════════════════════════════ */
+/* Form Styles                                 */
+/* ═══════════════════════════════════════════ */
+.krishna-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(26, 10, 62, 0.04);
+  border: 1px solid rgba(26, 10, 62, 0.12);
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  color: var(--color-deep-black);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.krishna-input:focus {
+  border-color: var(--color-divine-gold);
+  background: rgba(212, 168, 67, 0.04);
+  box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.1);
+}
+
+.krishna-input::placeholder {
+  color: rgba(26, 10, 62, 0.35);
+}
+
+/* ═══════════════════════════════════════════ */
+/* 3D Product Card                             */
+/* ═══════════════════════════════════════════ */
+.product-card-3d {
+  perspective: 1200px;
+}
+
+.product-card-inner {
+  transform-style: preserve-3d;
+  transition: box-shadow 0.5s ease;
+}
+
+.product-card-inner:hover {
+  box-shadow: 
+    0 25px 50px rgba(26, 10, 62, 0.15),
+    0 0 30px rgba(212, 168, 67, 0.1);
+}
+
+.product-card-content {
+  transform: translateZ(40px);
+}
+
+/* Product image placeholder */
+.product-image-placeholder {
+  background: linear-gradient(135deg, 
+    var(--color-royal-purple) 0%, 
+    var(--color-mid-purple) 40%, 
+    var(--color-peacock-blue) 70%,
+    var(--color-peacock-teal) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: "Playfair Display", serif;
+  font-size: 3rem;
+}
+
+/* ═══════════════════════════════════════════ */
+/* Section Styling                              */
+/* ═══════════════════════════════════════════ */
+.section-dark {
+  background: linear-gradient(180deg, var(--color-deep-purple) 0%, var(--color-royal-purple) 100%);
+}
+
+.section-cream {
+  background: linear-gradient(180deg, var(--color-warm-white) 0%, var(--color-cream) 100%);
+  transition: background 0.5s ease;
+}
+
+.dark .section-cream {
+  background: linear-gradient(180deg, var(--color-deep-black) 0%, var(--color-soft-black) 100%);
+}
+
+.dark .text-royal-purple {
+  color: var(--color-gold-light);
+}
+
+.dark .text-gray-500 {
+  color: #a0a0a0;
+}
+
+.dark .product-card-inner {
+  background-color: var(--color-soft-black);
+}
+
+.dark .glass-light {
+  background: rgba(15, 15, 15, 0.85);
+  border-color: rgba(212, 168, 67, 0.2);
+}
+
+/* ═══════════════════════════════════════════ */
+/* Responsive Helpers                           */
+/* ═══════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.5rem !important;
+    line-height: 1.15 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem !important;
+    line-height: 1.15 !important;
+  }
+}
