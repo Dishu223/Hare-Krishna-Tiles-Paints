@@ -97,27 +97,26 @@ export function Navbar({ searchQuery, setSearchQuery, onNavigate }: NavbarProps)
             : 'bg-transparent border-b border-transparent pointer-events-none'
         }`}
       >
-        <div className="max-w-[1400px] mx-auto px-5 md:px-10 relative">
-          <div className="flex items-center justify-between h-20 md:h-24 lg:h-28">
+        <div className="w-full px-4 lg:px-8 xl:px-12 relative">
+          <div className="flex items-center justify-between h-16 md:h-20 lg:h-20">
 
-            {/* 🎨 Logo 🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨 */}
-            <div className="flex-1 flex justify-center lg:justify-start z-10 absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 w-full lg:w-auto">
+            {/* 🎨 Logo */}
+            <div className="flex shrink-0 justify-center lg:justify-start z-10 absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 w-full lg:w-auto">
               <button
                 onClick={() => handleNavClick('home')}
                 className="flex items-center gap-3 group cursor-pointer"
               >
-                {/* Logo Image */}
                 <img 
                   src="/harekrishna-logo.png" 
                   alt="Hare KRishna Tiles & Paints" 
                   decoding="async"
-                  className="h-[105px] sm:h-[115px] md:h-[90px] lg:h-[110px] w-auto max-w-[75vw] md:max-w-[45vw] lg:max-w-[500px] object-contain transition-transform duration-500 group-hover:scale-105"
+                  className="h-[85px] sm:h-[95px] md:h-[70px] lg:h-[80px] w-auto max-w-[75vw] md:max-w-[45vw] lg:max-w-[500px] object-contain transition-transform duration-500 group-hover:scale-105"
                 />
               </button>
             </div>
 
-            {/* 🎨 Desktop Navigation (CENTERED) 🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨 */}
-            <nav className="hidden lg:flex shrink-0 items-center justify-center gap-4 xl:gap-8 z-10">
+            {/* 🎨 Desktop Navigation (CENTERED) */}
+            <nav className="hidden lg:flex flex-1 items-center justify-center gap-4 xl:gap-6 z-10">
               {navLinks.map((link) => (
                 <React.Fragment key={link.id}>
                   <button
@@ -148,12 +147,9 @@ export function Navbar({ searchQuery, setSearchQuery, onNavigate }: NavbarProps)
                   )}
                 </React.Fragment>
               ))}
-            </nav>
 
-            {/* 🎨 Desktop Controls (RIGHT) 🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨🎨 */}
-            <div className="flex-1 hidden lg:flex items-center justify-end z-10 min-w-max">
-              {/* Search bar */}
-              <div className="relative">
+              {/* Search bar with spacing from Contact */}
+              <div className="relative ml-4 xl:ml-8">
                 <Search className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none transition-colors duration-300 ${isScrolled ? 'text-royal-purple/40 dark:text-white/40' : 'text-white/50'}`} />
                 <input
                   type="text"
@@ -168,9 +164,12 @@ export function Navbar({ searchQuery, setSearchQuery, onNavigate }: NavbarProps)
                   }`}
                 />
               </div>
+            </nav>
 
+            {/* 🎨 Desktop Controls (RIGHT) */}
+            <div className="hidden lg:flex shrink-0 items-center justify-end z-10 gap-3 xl:gap-4">
               {/* Desktop Toggles */}
-              <div className={`flex items-center gap-3 xl:gap-4 ml-4 xl:ml-6 pl-4 xl:pl-6 border-l transition-colors duration-300 ${isScrolled ? 'border-royal-purple/10 dark:border-white/10' : 'border-white/20'}`}>
+              <div className={`flex items-center gap-3 xl:gap-4 transition-colors duration-300`}>
                 <div className="relative flex items-center group">
                   <button
                     onClick={toggleMute}

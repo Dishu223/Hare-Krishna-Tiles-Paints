@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react';
-import { MapPin, Phone, Mail, Instagram, Facebook, X as CloseIcon } from 'lucide-react';
+import { MapPin, Phone, Mail, Instagram, Facebook, X as CloseIcon, Clock } from 'lucide-react';
 import { businessInfo } from '../data';
 import ShinyText from './ShinyText';
 import { Dock } from './Dock';
@@ -156,7 +156,7 @@ export function Contact({ isDockVisible }: { isDockVisible?: boolean }) {
             />
           </h2>
           <p className="font-sans text-gray-600 dark:text-white/60 font-light mt-4 max-w-xl mx-auto leading-relaxed max-md:bg-white/50 dark:max-md:bg-black/50 max-md:backdrop-blur-md max-md:p-4 max-md:rounded-xl">
-            Step into a world of exquisite tiles and sanitaryware. Find us at our premium showroom in Dehradun.
+            Visit our shop in Miyanwala, Dehradun, or reach out to us via phone or WhatsApp. We're here to assist you with all your hardware and painting needs.
           </p>
         </motion.div>
 
@@ -239,21 +239,35 @@ export function Contact({ isDockVisible }: { isDockVisible?: boolean }) {
                 </div>
               </div>
 
-              {/* Email */}
-              <div className="flex items-start gap-4 relative z-10">
-                <div className="w-12 h-12 rounded-2xl bg-royal-purple/5 dark:bg-white/5 flex items-center justify-center shrink-0 border border-royal-purple/10 dark:border-white/10">
-                  <Mail className="w-6 h-6 text-divine-gold" />
+                {/* Email */}
+                <div className="flex items-start gap-4 relative z-10 w-full">
+                  <div className="w-12 h-12 rounded-2xl bg-royal-purple/5 dark:bg-white/5 flex items-center justify-center shrink-0 border border-royal-purple/10 dark:border-white/10">
+                    <Mail className="w-6 h-6 text-divine-gold" />
+                  </div>
+                  <div className="pt-1.5">
+                    <h4 className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-1">Email Support</h4>
+                    <a
+                      href={`mailto:${businessInfo.email}`}
+                      className="text-gray-700 dark:text-white/90 text-sm font-sans hover:text-royal-purple dark:hover:text-gold-light transition-colors font-medium break-all"
+                    >
+                      {businessInfo.email}
+                    </a>
+                  </div>
                 </div>
-                <div className="pt-1.5">
-                  <h4 className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-1">Email Support</h4>
-                  <a
-                    href={`mailto:${businessInfo.email}`}
-                    className="text-gray-700 dark:text-white/90 text-sm font-sans hover:text-royal-purple dark:hover:text-gold-light transition-colors font-medium"
-                  >
-                    {businessInfo.email}
-                  </a>
+
+                {/* Operating Hours */}
+                <div className="flex items-start gap-4 relative z-10 w-full">
+                  <div className="w-12 h-12 rounded-2xl bg-royal-purple/5 dark:bg-white/5 flex items-center justify-center shrink-0 border border-royal-purple/10 dark:border-white/10">
+                    <Clock className="w-6 h-6 text-divine-gold" />
+                  </div>
+                  <div className="pt-1.5">
+                    <h4 className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-1">Operating Hours</h4>
+                    <p className="text-gray-700 dark:text-white/90 text-sm font-sans font-medium">
+                      Monday – Sunday<br/>
+                      8:30 AM to 8:00 PM
+                    </p>
+                  </div>
                 </div>
-              </div>
 
               <div className="pt-4 w-full relative z-10 border-t border-gray-100 dark:border-white/10">
                 {/* Google Maps Link */}

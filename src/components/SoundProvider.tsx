@@ -87,8 +87,9 @@ export function SoundProvider({ children }: { children: ReactNode }) {
         return;
       }
       
-      // Hero canvas section is 500vh, so it ends around 3.5 * innerHeight
-      const threshold = window.innerHeight * 3.5;
+      // Hero canvas section is 300vh on mobile and 500vh on desktop
+      const isMobile = window.innerWidth < 768;
+      const threshold = isMobile ? window.innerHeight * 2.0 : window.innerHeight * 3.5;
       const scrollY = window.scrollY;
       
       if (scrollY > threshold) {

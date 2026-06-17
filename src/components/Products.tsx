@@ -68,13 +68,13 @@ const categoryIcon: Record<string, string> = {
    TiltCard — interactive 3D product card
    ═══════════════════════════════════════════════════════ */
 interface TiltCardProps {
-  key?: string | number;
   product: Product;
   index: number;
-  onClick: (p: Product) => void;
+  columns: number;
+  onClick: (product: Product) => void;
   isPaintsMode: boolean;
   lowStockThreshold: number;
-  showStockCount?: boolean;
+  showStockCount: boolean;
 }
 
 function StockDot({ product, showStockCount }: { product: Product, showStockCount?: boolean }) {
@@ -118,7 +118,7 @@ function StockDot({ product, showStockCount }: { product: Product, showStockCoun
   );
 }
 
-function TiltCard({ product, index, onClick, isPaintsMode, lowStockThreshold, showStockCount }: TiltCardProps) {
+function TiltCard({ product, index, columns, onClick, isPaintsMode, lowStockThreshold, showStockCount }: TiltCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [imgError, setImgError] = useState(false);
   const [isImgLoading, setIsImgLoading] = useState(true);
@@ -150,15 +150,15 @@ function TiltCard({ product, index, onClick, isPaintsMode, lowStockThreshold, sh
   const showPlaceholder = !product.image || imgError;
 
   return (
-    <div className="product-card-3d break-inside-avoid mb-4 md:mb-6 lg:mb-8">
+    <div className="product-card-3d h-full">
       {/* scroll‑reveal wrapper */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
+        initial={{ opacity: 0, y: 60, filter: 'blur(10px)' }}
+        whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+        viewport={{ once: true, amount: 0.1 }}
         transition={{
-          duration: 0.6,
-          delay: (index % 3) * 0.1,
+          duration: 0.8,
+          delay: (index % columns) * 0.2,
           ease: [0.22, 1, 0.36, 1],
         }}
       >
@@ -198,6 +198,7 @@ function TiltCard({ product, index, onClick, isPaintsMode, lowStockThreshold, sh
                   }}
                   className={`block transition-all duration-700 ease-out group-hover:scale-[1.05] object-cover ${isImgLoading ? 'opacity-0' : 'opacity-100'} w-full h-full`}
                   loading="lazy"
+                  decoding="async"
                 />
               </>
             )}
@@ -245,7 +246,24 @@ export function Products({ products, searchQuery }: ProductsProps) {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isVisualizerOpen, setIsVisualizerOpen] = useState(false);
+  const [isFiltersExpanded, setIsFiltersExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [columns, setColumns] = useState(5);
   const { settings } = useAdminData();
+
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      setIsMobile(w < 768);
+      if (w < 640) setColumns(2);
+      else if (w < 1024) setColumns(3);
+      else if (w < 1280) setColumns(4);
+      else setColumns(5);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Filter strictly by collection
   const currentProducts = products.filter(p => galleryMode === 'Paints' ? p.collection === 'paints' : p.collection === 'tiles');
@@ -270,18 +288,22 @@ export function Products({ products, searchQuery }: ProductsProps) {
     return matchesCategory && matchesSearch;
   });
 
+  const visibleCount = isMobile ? 3 : 7;
+  const showMoreButton = currentCategories.length > visibleCount;
+  const visibleCategories = isFiltersExpanded ? currentCategories : currentCategories.slice(0, visibleCount);
+
   const containerRef = useRef<HTMLElement>(null);
 
   return (
     <section 
-      id="collections" 
+      id="gallery" 
       ref={containerRef}
       className={`relative py-24 md:py-32 scroll-mt-20 md:scroll-mt-24 lg:scroll-mt-28 transition-colors duration-1000 overflow-hidden ${galleryMode === 'Paints' ? 'bg-transparent cursor-crosshair' : 'section-cream'}`}
     >
       
       {/* Removed PaintBackgroundLayer to rely on GlobalPaintOverlay */}
 
-      <div className="max-w-7xl mx-auto pl-14 pr-6 md:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         
         {/* ═══════════ Mode Toggle ═══════════ */}
         <motion.div
@@ -346,8 +368,8 @@ export function Products({ products, searchQuery }: ProductsProps) {
           </h2>
           <p className="font-sans text-gray-500 dark:text-white/60 font-light mt-4 max-w-xl mx-auto leading-relaxed max-md:bg-white/50 dark:max-md:bg-black/50 max-md:backdrop-blur-md max-md:p-4 max-md:rounded-xl">
             {galleryMode === 'Paints' 
-              ? "Bring your walls to life with our premium selection of rich, durable, and vibrant paints crafted for every mood."
-              : "A curated selection of premium tiles, sanitaryware, and bath fittings — handpicked to transform every corner of your home into a work of art."
+              ? "Find the perfect shade from our extensive collection of long-lasting paints, primers, and putties for flawless interiors and exteriors."
+              : "Explore our wide variety of floor and wall tiles, sturdy sanitaryware, and essential bath fittings designed for both durability and style."
             }
           </p>
 
@@ -362,34 +384,52 @@ export function Products({ products, searchQuery }: ProductsProps) {
           )}
         </motion.div>
 
-        {/* ═══════════ Category Filter & View Toggle Bar ═══════════ */}
+        {/* ═══════════ Filter Categories ═══════════ */}
         <motion.div
-          key={`filters-${galleryMode}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-12 md:mb-16 flex flex-col md:flex-row items-center justify-between gap-4 px-4"
+          className="mb-12 md:mb-16 flex flex-col items-center gap-4 px-4"
         >
-          <div className="flex overflow-x-auto snap-x flex-nowrap md:flex-wrap gap-2.5 pb-3 md:justify-center w-full hide-scrollbar custom-scrollbar">
-            {currentCategories.map((cat) => {
-              const isActive = activeCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`
-                    shrink-0 rounded-full px-5 py-2 text-xs font-sans font-medium
-                    tracking-wider uppercase transition-all duration-300 border
-                    ${isActive && galleryMode === 'Paints' ? 'bg-pink-500 text-white border-pink-500 shadow-lg shadow-pink-500/30' : ''}
-                    ${isActive && galleryMode === 'Tiles' ? 'bg-royal-purple text-divine-gold border-royal-purple shadow-lg shadow-royal-purple/20' : ''}
-                    ${!isActive ? 'bg-white/80 dark:bg-white/10 text-gray-600 dark:text-white/60 border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/20 hover:text-gray-900 dark:hover:text-white' : ''}
-                  `}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
+          <motion.div layout className="flex flex-wrap gap-2.5 pb-3 justify-center w-full">
+            <AnimatePresence mode="popLayout">
+              {visibleCategories.map((cat) => {
+                const isActive = activeCategory === cat;
+                return (
+                  <motion.button
+                    layout
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.2 }}
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`
+                      shrink-0 rounded-full px-5 py-2 text-xs font-sans font-medium
+                      tracking-wider uppercase transition-all duration-300 border
+                      ${isActive && galleryMode === 'Paints' ? 'bg-pink-500 text-white border-pink-500 shadow-lg shadow-pink-500/30' : ''}
+                      ${isActive && galleryMode === 'Tiles' ? 'bg-royal-purple text-divine-gold border-royal-purple shadow-lg shadow-royal-purple/20' : ''}
+                      ${!isActive ? 'bg-white/80 dark:bg-white/10 text-gray-600 dark:text-white/60 border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/20 hover:text-gray-900 dark:hover:text-white' : ''}
+                    `}
+                  >
+                    {cat}
+                  </motion.button>
+                );
+              })}
+            </AnimatePresence>
+
+            {showMoreButton && (
+              <motion.button
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                onClick={() => setIsFiltersExpanded(!isFiltersExpanded)}
+                className="shrink-0 rounded-full px-5 py-2 text-xs font-sans font-medium tracking-wider uppercase transition-all duration-300 border bg-transparent text-gray-500 dark:text-white/40 border-dashed border-gray-300 dark:border-white/20 hover:text-gray-800 dark:hover:text-white hover:border-gray-400 dark:hover:border-white/40"
+              >
+                {isFiltersExpanded ? 'Less -' : 'More +'}
+              </motion.button>
+            )}
+          </motion.div>
         </motion.div>
 
         {/* ═══════════ Product Grid / Empty State ═══════════ */}

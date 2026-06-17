@@ -141,7 +141,7 @@ export const products: Product[] = [
 
 export const businessInfo = {
   name: 'Hare KRishna Tiles & Paints',
-  tagline: 'Best Designs @ Best Price',
+  tagline: 'Quality Building Materials at Honest Prices',
   owners: [
     { name: 'Mayank Panwar', number: '+91 87556 37890' },
     { name: 'Mukesh Panwar', number: '+91 82185 10128' }

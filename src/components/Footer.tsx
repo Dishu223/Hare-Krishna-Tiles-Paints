@@ -315,10 +315,10 @@ export function Footer() {
       <div ref={containerRef} className="absolute inset-0 w-full h-full cursor-pointer" />
 
       <div className="absolute bottom-6 left-0 right-0 pointer-events-none flex justify-center z-10 px-4">
-        <div className="font-sans text-[0.55rem] md:text-xs tracking-[0.3em] uppercase text-center mt-6 text-white/50 dark:text-white/40">
+        <div className={`font-sans text-[0.55rem] md:text-xs tracking-[0.3em] uppercase text-center mt-6 transition-colors duration-500 ${isPaintMode ? 'text-black/60' : 'text-white/50 dark:text-white/40'}`}>
           <span>&copy; 2026</span>
-          <span className="ml-2 font-bold text-royal-purple dark:text-divine-gold drop-shadow-[0_0_8px_rgba(212,168,67,0.5)]">H</span><span>ARE</span>
-          <span className="ml-2 font-bold text-royal-purple dark:text-divine-gold drop-shadow-[0_0_8px_rgba(212,168,67,0.5)]">KR</span><span>ISHNA TILES & PAINTS</span>
+            <span className="ml-2 font-bold text-divine-gold drop-shadow-[0_0_8px_rgba(212,168,67,0.5)]">H</span><span>ARE </span>
+            <span className="font-bold text-divine-gold drop-shadow-[0_0_8px_rgba(212,168,67,0.5)]">KR</span><span>ISHNA TILES & PAINTS</span>
           <span className="ml-2">. ALL RIGHTS RESERVED.</span>
         </div>
       </div>

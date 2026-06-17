@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import ShinyText from './ShinyText';
-import CountUp from './CountUp';
 import { usePaintMode } from './PaintModeContext';
 import { PaintBackgroundLayer } from './PaintBackgroundLayer';
 
@@ -24,10 +23,7 @@ export function Hero({ onExplore }: HeroProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [countFinished, setCountFinished] = useState(false);
   const [imagesFinished, setImagesFinished] = useState(false);
-  const [showLoadingOverlay, setShowLoadingOverlay] = useState(true);
-  const [isFadingOutLoading, setIsFadingOutLoading] = useState(false);
 
   // Preload images
   useEffect(() => {
@@ -40,21 +36,19 @@ export function Hero({ onExplore }: HeroProps) {
       img.onload = () => {
         loadedCount++;
         loadedImages[i] = img;
-        if (loadedCount === FRAME_COUNT) {
-          setImages(loadedImages);
+        
+        // Progressively update the images array so we can start rendering immediately
+        setImages([...loadedImages]);
+
+        // Finish the loading screen as soon as the first frame is ready
+        if (loadedCount >= 1) {
           setImagesFinished(true);
         }
       };
     }
   }, []);
 
-  // Handle loading overlay transition
-  useEffect(() => {
-    if (countFinished && imagesFinished) {
-      setIsFadingOutLoading(true);
-      setTimeout(() => setShowLoadingOverlay(false), 800); // Wait for fade out animation
-    }
-  }, [countFinished, imagesFinished]);
+
 
   // Scroll tracking
   const { scrollYProgress } = useScroll({
@@ -69,8 +63,9 @@ export function Hero({ onExplore }: HeroProps) {
 
   // Canvas drawing function
   const drawImage = (index: number) => {
-    if (!canvasRef.current || images.length !== FRAME_COUNT) return;
-    const img = images[index];
+    if (!canvasRef.current || images.length === 0) return;
+    // Fallback to the latest available image if the requested one isn't loaded yet
+    const img = images[index] || images.find(img => img !== undefined);
     if (!img) return;
 
     const canvas = canvasRef.current;
@@ -154,7 +149,7 @@ export function Hero({ onExplore }: HeroProps) {
   // Handle window resize
   useEffect(() => {
     const handleResize = () => {
-      if (canvasRef.current && images.length === FRAME_COUNT) {
+      if (canvasRef.current && images.length > 0) {
         // Use devicePixelRatio for sharpness
         const dpr = window.devicePixelRatio || 1;
         canvasRef.current.width = window.innerWidth * dpr;
@@ -175,32 +170,7 @@ export function Hero({ onExplore }: HeroProps) {
 
   return (
     <>
-      {/* ── Loading Overlay ─────────────────────── */}
-      {showLoadingOverlay && (
-        <motion.div 
-          initial={{ opacity: 1 }}
-          animate={{ opacity: isFadingOutLoading ? 0 : 1 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-deep-black text-white pointer-events-auto"
-        >
-          <div className="font-serif text-6xl md:text-8xl flex items-end gap-2 text-divine-gold">
-            <CountUp
-              to={100}
-              duration={1.5}
-              onEnd={() => setCountFinished(true)}
-            />
-            <span className="text-2xl md:text-4xl text-divine-gold/50 mb-2">%</span>
-          </div>
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="font-sans uppercase tracking-[0.3em] text-xs mt-6 text-white/50"
-          >
-            Loading Experience
-          </motion.div>
-        </motion.div>
-      )}
+
 
       <section 
         ref={containerRef} 
@@ -210,6 +180,7 @@ export function Hero({ onExplore }: HeroProps) {
         <motion.div 
           style={{ opacity }}
           className="sticky top-0 h-[100dvh] w-full flex items-center justify-center overflow-hidden"
+          data-cursor="hero"
         >
           <canvas
             ref={canvasRef}
@@ -229,10 +200,11 @@ export function Hero({ onExplore }: HeroProps) {
 
           <button 
             onClick={onExplore}
-            className="absolute bottom-8 right-6 md:right-10 z-50 w-12 h-12 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all pointer-events-auto shadow-[0_4px_15px_rgba(0,0,0,0.2)]"
+            className="absolute bottom-4 right-8 md:bottom-6 md:right-16 z-50 px-6 py-3 md:px-8 md:py-4 rounded-full bg-[#0a0a0a] border border-white/5 flex items-center gap-3 text-white hover:bg-black transition-all pointer-events-auto shadow-2xl"
             aria-label="Skip to Content"
           >
-            <ArrowRight className="w-5 h-5 transform rotate-90" />
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] font-sans font-medium text-white/80">Skip Intro</span>
+            <ArrowRight className="w-4 h-4 md:w-5 md:h-5 transform rotate-90 text-divine-gold" />
           </button>
         </motion.div>
       </section>

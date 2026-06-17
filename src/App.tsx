@@ -10,7 +10,6 @@ import { Footer } from './components/Footer';
 import { GlobalPaintOverlay } from './components/GlobalPaintOverlay';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { CustomCursor } from './components/CustomCursor';
-import { GlobalJourney } from './components/GlobalJourney';
 import { useAdminData } from './components/admin/AdminDataContext';
 import { motion, AnimatePresence, LayoutGroup } from 'motion/react';
 import { Megaphone } from 'lucide-react';
@@ -77,7 +76,6 @@ export default function App() {
             className="relative z-10 bg-warm-white shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
             style={{ marginBottom: footerHeight }}
           >
-            <GlobalJourney />
 
             <Navbar 
               searchQuery={searchQuery} 

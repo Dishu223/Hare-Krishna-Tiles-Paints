@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ShieldAlert, User, KeyRound } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ShieldAlert, User, KeyRound, Lock } from 'lucide-react';
 import { AdminRole } from '../types';
 import { motion } from 'motion/react';
 
@@ -7,30 +7,64 @@ interface AdminLoginProps {
   onLogin: (role: AdminRole) => void;
 }
 
-const ROLES: { name: AdminRole; pin: string }[] = [
-  { name: 'Mukesh Panwar', pin: '1234' },
-  { name: 'Mayank Panwar', pin: '5678' },
-  { name: 'Others', pin: '0000' },
+const ROLES: { name: AdminRole; hash: string }[] = [
+  { name: 'Mukesh Panwar', hash: '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4' }, // 1234
+  { name: 'Mayank Panwar', hash: '0079a490d16c52bbcb14a68778ce35817a151b753b8796db3ad6929f27329524' }, // 5678
+  { name: 'Others', hash: '9af15b336e6a9619928537df30b2e6a2376569fcf9d7e773eccede65606529a0' }, // 0000
 ];
+
+async function hashPin(pin: string) {
+  const msgBuffer = new TextEncoder().encode(pin);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 export function AdminLogin({ onLogin }: AdminLoginProps) {
   const [selectedRole, setSelectedRole] = useState<AdminRole>('Mukesh Panwar');
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isLocked) {
+      timer = setTimeout(() => {
+        setIsLocked(false);
+        setAttempts(0);
+        setError('');
+      }, 30000);
+    }
+    return () => clearTimeout(timer);
+  }, [isLocked]);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLocked) return;
+
     const roleConfig = ROLES.find(r => r.name === selectedRole);
+    if (!roleConfig) return;
+
+    const inputHash = await hashPin(pin);
     
-    if (roleConfig && roleConfig.pin === pin) {
+    if (roleConfig.hash === inputHash) {
       setError('');
       setIsSuccess(true);
+      setAttempts(0);
       setTimeout(() => {
         onLogin(selectedRole);
       }, 1500);
     } else {
-      setError('Incorrect PIN. Please try again.');
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      if (newAttempts >= 5) {
+        setIsLocked(true);
+        setError('Too many failed attempts. Try again in 30 seconds.');
+      } else {
+        setError(`Incorrect PIN. ${5 - newAttempts} attempts remaining.`);
+      }
     }
   };
 
@@ -81,7 +115,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   <select 
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value as AdminRole)}
-                    className="w-full pl-4 pr-10 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl appearance-none focus:outline-none focus:border-royal-purple dark:focus:border-gold-light focus:ring-1 focus:ring-royal-purple dark:focus:ring-gold-light transition-all font-sans text-gray-900 dark:text-white"
+                    disabled={isLocked}
+                    className="w-full pl-4 pr-10 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl appearance-none focus:outline-none focus:border-royal-purple dark:focus:border-gold-light focus:ring-1 focus:ring-royal-purple dark:focus:ring-gold-light transition-all font-sans text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {ROLES.map(role => (
                       <option key={role.name} value={role.name} className="dark:bg-[#121212]">{role.name}</option>
@@ -107,7 +142,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                     onChange={(e) => setPin(e.target.value)}
                     placeholder="Enter 4-digit PIN"
                     maxLength={4}
-                    className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:border-royal-purple dark:focus:border-gold-light focus:ring-1 focus:ring-royal-purple dark:focus:ring-gold-light transition-all font-sans tracking-widest text-lg text-gray-900 dark:text-white"
+                    disabled={isLocked}
+                    className="w-full px-4 py-3.5 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl focus:outline-none focus:border-royal-purple dark:focus:border-gold-light focus:ring-1 focus:ring-royal-purple dark:focus:ring-gold-light transition-all font-sans tracking-widest text-lg text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 {error && (
@@ -122,9 +158,10 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
 
               <button 
                 type="submit"
-                className="w-full bg-royal-purple dark:bg-gold-light text-white dark:text-royal-purple font-serif font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity mt-2 shadow-lg shadow-royal-purple/20 flex justify-center items-center gap-2"
+                disabled={isLocked}
+                className="w-full bg-royal-purple dark:bg-gold-light text-white dark:text-royal-purple font-serif font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity mt-2 shadow-lg shadow-royal-purple/20 flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 dark:disabled:bg-gray-700"
               >
-                Access Portal
+                {isLocked ? <><Lock size={18} /> Locked</> : 'Access Portal'}
               </button>
             </form>
           </motion.div>

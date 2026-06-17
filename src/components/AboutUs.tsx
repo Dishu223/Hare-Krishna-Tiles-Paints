@@ -7,18 +7,18 @@ import { PaintBackgroundLayer } from './PaintBackgroundLayer';
 const pillars = [
   {
     icon: Shield,
-    title: 'Unmatched Trust',
-    description: 'Serving Dehradun for decades, our legacy is built on transparency, reliability, and delivering exactly what we promise. Trust is our foundation.'
+    title: 'Honest Pricing',
+    description: 'Serving our community with transparent and fair pricing on all our paints, hardware, and tiles. No hidden costs.'
   },
   {
     icon: Diamond,
-    title: 'Premium Quality',
-    description: 'Every tile and fixture in our showroom is handpicked for its durability, aesthetic appeal, and world-class manufacturing standards.'
+    title: 'Reliable Quality',
+    description: 'We stock trusted brands like Birla Opus Paints and durable materials that stand the test of time, ensuring your home is built to last.'
   },
   {
     icon: HeartHandshake,
-    title: 'Dedicated Service',
-    description: 'From helping you select the perfect design to ensuring safe delivery, our customer-first approach makes your building journey effortless.'
+    title: 'Personalized Help',
+    description: 'From picking the exact shade of paint to matching your floor tiles, our friendly team is always ready to guide you.'
   }
 ];
 import { usePaintMode } from './PaintModeContext';
@@ -49,10 +49,10 @@ export function AboutUs() {
               </span>
             </div>
             <h2 className="font-serif text-4xl md:text-5xl mt-4 text-royal-purple dark:text-white">
-              Our <ShinyText text="Legacy" speed={3} color="var(--shiny-base, #1a0a3e)" shineColor="#d4a843" className="[--shiny-base:#1a0a3e] dark:[--shiny-base:#d4d4d8]" />
+              Our <ShinyText text="Commitment" speed={3} color="var(--shiny-base, #1a0a3e)" shineColor="#d4a843" className="[--shiny-base:#1a0a3e] dark:[--shiny-base:#d4d4d8]" />
             </h2>
             <p className="font-sans text-gray-600 dark:text-white/60 font-light mt-4 max-w-2xl mx-auto leading-relaxed max-md:bg-white/50 dark:max-md:bg-black/50 max-md:backdrop-blur-md max-md:p-4 max-md:rounded-xl">
-              We don't just sell tiles; we help you build your dream home. Our philosophy revolves around three core pillars that define who we are.
+              As a proud business in Dehradun, we believe in honest guidance and providing the right materials for your needs. Here is what you can expect when you visit our shop.
             </p>
           </motion.div>
         </div>

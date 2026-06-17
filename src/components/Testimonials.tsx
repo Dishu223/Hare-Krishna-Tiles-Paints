@@ -113,10 +113,10 @@ export function Testimonials() {
           </span>
         </div>
         <h2 className="font-serif text-4xl md:text-5xl mt-4 relative inline-block text-royal-purple dark:text-white">
-          Trusted by <ShinyText text="Thousands" speed={3} color="var(--shiny-base, #1a0a3e)" shineColor="#d4a843" className="[--shiny-base:#1a0a3e] dark:[--shiny-base:#d4d4d8]" />
+          Trusted by <ShinyText text="Our Community" speed={3} color="var(--shiny-base, #1a0a3e)" shineColor="#d4a843" className="[--shiny-base:#1a0a3e] dark:[--shiny-base:#d4d4d8]" />
         </h2>
         <p className="font-sans text-gray-600 dark:text-white/60 font-light mt-4 max-w-xl mx-auto leading-relaxed max-md:bg-white/50 dark:max-md:bg-black/50 max-md:backdrop-blur-md max-md:p-4 max-md:rounded-xl">
-          See what our beloved customers have to say about their experience with us.
+          Hear from our neighbors and customers who have trusted us with their home building and renovation needs.
         </p>
       </div>
 

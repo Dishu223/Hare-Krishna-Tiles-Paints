@@ -23,18 +23,20 @@ const useFluidCursor = () => {
 
   resizeCanvas();
 
+  const isMobile = window.innerWidth < 768 || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+
   let config = {
-    SIM_RESOLUTION: 128,
-    DYE_RESOLUTION: 1440,
+    SIM_RESOLUTION: isMobile ? 64 : 128,
+    DYE_RESOLUTION: isMobile ? 512 : 1440,
     CAPTURE_RESOLUTION: 512,
     DENSITY_DISSIPATION: 3.5,
     VELOCITY_DISSIPATION: 2,
     PRESSURE: 0.1,
-    PRESSURE_ITERATIONS: 20,
-    CURL: 3,
-    SPLAT_RADIUS: 0.2,
+    PRESSURE_ITERATIONS: isMobile ? 10 : 20,
+    CURL: isMobile ? 2 : 3,
+    SPLAT_RADIUS: isMobile ? 0.3 : 0.2,
     SPLAT_FORCE: 6000,
-    SHADING: true,
+    SHADING: !isMobile,
     COLOR_UPDATE_SPEED: 10,
     PAUSED: false,
     BACK_COLOR: { r: 0.5, g: 0, b: 0 },
