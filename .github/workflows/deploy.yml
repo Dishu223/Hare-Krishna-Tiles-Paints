@@ -30,23 +30,20 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: harekrishna-tiles/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd harekrishna-tiles
-          npm ci
+        run: npm ci
 
       - name: Build website
-        run: |
-          cd harekrishna-tiles
-          npm run build
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: harekrishna-tiles/dist
+          path: dist
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
