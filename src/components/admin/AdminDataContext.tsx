@@ -93,10 +93,10 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
         const data = snapshot.val();
         if (data) {
           const parsed = Object.values(data) as Product[];
-          // Sanitize absolute image paths from DB to relative paths for GitHub Pages
+          // Bulletproof image paths for GitHub Pages subfolder
           const sanitized = parsed.map(p => ({
             ...p,
-            image: p.image?.startsWith('/products/') ? p.image.replace('/products/', './products/') : p.image
+            image: p.image ? p.image.replace(/^.*\/products\//, '/Hare-Krishna-Tiles-Paints/products/') : p.image
           }));
           setProducts(sanitized);
         }

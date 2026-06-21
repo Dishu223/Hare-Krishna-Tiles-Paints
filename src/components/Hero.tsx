@@ -14,7 +14,7 @@ const FRAME_COUNT = 60;
 
 const getImagePath = (index: number) => {
   const num = index.toString().padStart(3, '0');
-  return `./SHOWROOM_UPGRADED/Animate_shop_lights_flicker_open_202606160205_${num}.jpg`;
+  return `/Hare-Krishna-Tiles-Paints/SHOWROOM_UPGRADED/Animate_shop_lights_flicker_open_202606160205_${num}.jpg`;
 };
 
 export function Hero({ onExplore }: HeroProps) {
