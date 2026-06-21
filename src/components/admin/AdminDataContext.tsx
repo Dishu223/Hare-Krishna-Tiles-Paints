@@ -93,11 +93,20 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
         const data = snapshot.val();
         if (data) {
           const parsed = Object.values(data) as Product[];
-          // Bulletproof image paths for GitHub Pages subfolder
-          const sanitized = parsed.map(p => ({
-            ...p,
-            image: p.image ? p.image.replace(/^.*\/products\//, '/Hare-Krishna-Tiles-Paints/products/') : p.image
-          }));
+          // Bulletproof relative image paths for dev and GitHub Pages
+          const sanitized = parsed.map(p => {
+            let imgPath = p.image;
+            if (imgPath) {
+              // Extract filename at the end of the path (e.g. "jubin-white.png" from whatever path format)
+              const match = imgPath.match(/\/([^/]+)$/);
+              const filename = match ? match[1] : imgPath;
+              imgPath = `products/${filename}`;
+            }
+            return {
+              ...p,
+              image: imgPath
+            };
+          });
           setProducts(sanitized);
         }
       });
@@ -164,11 +173,20 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
           localStorage.setItem('hk_products', JSON.stringify(localProducts));
         }
         
-        // Migrate old products without collection
-        localProducts = localProducts.map((p: any) => ({
-          ...p,
-          collection: p.collection || (['Tiles', 'Sanitaryware', 'Bath Fittings', 'Marble & Granite', 'Mosaic & Accents'].includes(p.category) ? 'tiles' : 'paints')
-        }));
+        // Migrate old products without collection and sanitize images
+        localProducts = localProducts.map((p: any) => {
+          let imgPath = p.image;
+          if (imgPath) {
+            const match = imgPath.match(/\/([^/]+)$/);
+            const filename = match ? match[1] : imgPath;
+            imgPath = `products/${filename}`;
+          }
+          return {
+            ...p,
+            image: imgPath,
+            collection: p.collection || (['Tiles', 'Sanitaryware', 'Bath Fittings', 'Marble & Granite', 'Mosaic & Accents'].includes(p.category) ? 'tiles' : 'paints')
+          };
+        });
         
         setProducts(localProducts);
         setAnnouncements(JSON.parse(localStorage.getItem('hk_announcements') || '[]'));
