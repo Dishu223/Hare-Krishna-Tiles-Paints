@@ -172,10 +172,10 @@ export function Contact({ isDockVisible }: { isDockVisible?: boolean }) {
           >
             <div className="w-full h-full bg-white border border-royal-purple/10 rounded-2xl overflow-hidden backdrop-blur-sm relative group shadow-2xl">
               <motion.img
-                layoutId={`contact-img-/products/radha-krishna.png`}
-                src="/products/radha-krishna.png"
+                layoutId={`contact-img-./products/radha-krishna.png`}
+                src="./products/radha-krishna.png"
                 alt="Radha Krishna"
-                onClick={() => setSelectedImage({ src: '/products/radha-krishna.png', alt: 'Radha Krishna' })}
+                onClick={() => setSelectedImage({ src: './products/radha-krishna.png', alt: 'Radha Krishna' })}
                 className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
                 fetchpriority="high"
               />

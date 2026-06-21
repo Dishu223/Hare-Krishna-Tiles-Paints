@@ -7,7 +7,7 @@ export const products: Product[] = [
     name: 'Jubin White Marble',
     collection: 'tiles',
     category: 'Tiles',
-    image: '/products/jubin-white.png',
+    image: './products/jubin-white.png',
     description: 'Glossy white marble finish tiles with elegant grey veining. 600×1200 MM.',
     price: 1200
   },
@@ -16,7 +16,7 @@ export const products: Product[] = [
     name: 'Cola Satavario',
     collection: 'tiles',
     category: 'Tiles',
-    image: '/products/cola-satavario.png',
+    image: './products/cola-satavario.png',
     description: 'Elegant Satavario design for a seamless, spacious look. 600×1200 MM.',
     price: 1350
   },
@@ -25,7 +25,7 @@ export const products: Product[] = [
     name: 'Brown Marble Slab',
     collection: 'tiles',
     category: 'Marble & Granite',
-    image: '/products/brown-marble.png',
+    image: './products/brown-marble.png',
     description: 'Premium Brown Marble with rich, dynamic textures for luxury surfaces and flooring.',
     price: 3500
   },
@@ -34,7 +34,7 @@ export const products: Product[] = [
     name: 'Royal Granite Slab',
     collection: 'tiles',
     category: 'Marble & Granite',
-    image: '/products/granite.png',
+    image: './products/granite.png',
     description: 'Luxurious granite slab for stunning, durable countertops and wall features.',
     price: 4200
   },
@@ -43,7 +43,7 @@ export const products: Product[] = [
     name: 'Black Mirror Gloss Tile',
     collection: 'tiles',
     category: 'Tiles',
-    image: '/products/black-mirror.png',
+    image: './products/black-mirror.png',
     description: 'High-gloss black reflective tile for modern, sophisticated wall paneling.',
     price: 1800
   },
@@ -52,7 +52,7 @@ export const products: Product[] = [
     name: 'Bright Red Premium Tile',
     collection: 'tiles',
     category: 'Tiles',
-    image: '/products/bright-red.png',
+    image: './products/bright-red.png',
     description: 'Vibrant solid red glazed tile to create bold statement walls.',
     price: 900
   },
@@ -61,7 +61,7 @@ export const products: Product[] = [
     name: 'Red Mirror Washbasin',
     collection: 'tiles',
     category: 'Sanitaryware',
-    image: '/products/red-mirror.png',
+    image: './products/red-mirror.png',
     description: 'Contemporary deep red glass basin with matching mirror accent set.',
     price: 8500
   },
@@ -70,7 +70,7 @@ export const products: Product[] = [
     name: 'Floral Art Ceramic Basin',
     collection: 'tiles',
     category: 'Sanitaryware',
-    image: '/products/flower-basin.png',
+    image: './products/flower-basin.png',
     description: 'Exquisitely hand-painted floral ceramic tabletop basin.',
     price: 6200
   },
@@ -79,7 +79,7 @@ export const products: Product[] = [
     name: 'Wooden Textured Basin',
     collection: 'tiles',
     category: 'Sanitaryware',
-    image: '/products/wooden-basin.png',
+    image: './products/wooden-basin.png',
     description: 'Ceramic tabletop washbasin with a highly realistic organic wooden texture finish.',
     price: 5800
   },
@@ -88,7 +88,7 @@ export const products: Product[] = [
     name: 'Premium Ceramic Commode',
     collection: 'tiles',
     category: 'Sanitaryware',
-    image: '/products/toilet.png',
+    image: './products/toilet.png',
     description: 'One-piece western closet with quiet dual-flush system and soft-close seat.',
     price: 12500
   },
@@ -97,7 +97,7 @@ export const products: Product[] = [
     name: 'Decorative Temple Stone Mural',
     collection: 'tiles',
     category: 'Mosaic & Accents',
-    image: '/products/temple.png',
+    image: './products/temple.png',
     description: 'Beautifully carved stone finish tile mural showcasing traditional temple architecture.',
     price: 18000
   },
@@ -106,7 +106,7 @@ export const products: Product[] = [
     name: 'Duo-Tone Border Tile (Type A)',
     collection: 'tiles',
     category: 'Mosaic & Accents',
-    image: '/products/long1.png',
+    image: './products/long1.png',
     description: 'Elegant long-format vertical divider tile with classic decorative detailing.',
     price: 450
   },
@@ -115,7 +115,7 @@ export const products: Product[] = [
     name: 'Duo-Tone Border Tile (Type B)',
     collection: 'tiles',
     category: 'Mosaic & Accents',
-    image: '/products/long2.png',
+    image: './products/long2.png',
     description: 'Premium vertical border accent tile to complement elegant bathroom designs.',
     price: 550
   },
@@ -124,7 +124,7 @@ export const products: Product[] = [
     name: 'White & Brown Fusion Marble',
     collection: 'tiles',
     category: 'Marble & Granite',
-    image: '/products/white-brown.png',
+    image: './products/white-brown.png',
     description: 'Exquisite white marble featuring striking, thick brown veins.',
     price: 8500
   },
@@ -133,7 +133,7 @@ export const products: Product[] = [
     name: 'Classic White Carrara Marble',
     collection: 'tiles',
     category: 'Marble & Granite',
-    image: '/products/white-marble.png',
+    image: './products/white-marble.png',
     description: 'Timeless white marble slab with a smooth, subtle grey vein pattern.',
     price: 9200
   }

@@ -107,7 +107,7 @@ export function Navbar({ searchQuery, setSearchQuery, onNavigate }: NavbarProps)
                 className="flex items-center gap-3 group cursor-pointer"
               >
                 <img 
-                  src="/harekrishna-logo.png" 
+                  src="./harekrishna-logo.png" 
                   alt="Hare KRishna Tiles & Paints" 
                   decoding="async"
                   className="h-[85px] sm:h-[95px] md:h-[70px] lg:h-[80px] w-auto max-w-[75vw] md:max-w-[45vw] lg:max-w-[500px] object-contain transition-transform duration-500 group-hover:scale-105"
