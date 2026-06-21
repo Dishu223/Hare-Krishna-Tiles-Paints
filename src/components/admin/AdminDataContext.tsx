@@ -92,7 +92,13 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
       const unsubProducts = onValue(productsRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
-          setProducts(Object.values(data));
+          const parsed = Object.values(data) as Product[];
+          // Sanitize absolute image paths from DB to relative paths for GitHub Pages
+          const sanitized = parsed.map(p => ({
+            ...p,
+            image: p.image?.startsWith('/products/') ? p.image.replace('/products/', './products/') : p.image
+          }));
+          setProducts(sanitized);
         }
       });
 
