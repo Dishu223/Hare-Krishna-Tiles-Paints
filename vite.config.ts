@@ -4,13 +4,9 @@ import path from 'path';
 import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
-  // Automatically extract repository name for GitHub Pages deployments
-  const repositoryName = process.env.GITHUB_REPOSITORY
-    ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`
-    : '/';
-
   return {
-    base: repositoryName,
+    // Using a relative path ensures assets are loaded correctly regardless of the domain path
+    base: './',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
