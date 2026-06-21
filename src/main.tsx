@@ -11,7 +11,7 @@ import { AdminDataProvider } from './components/admin/AdminDataContext.tsx';
 const Admin = lazy(() => import('./components/Admin.tsx').then(module => ({ default: module.Admin })));
 
 const rootElement = document.getElementById('root')!;
-const isAdminRoute = window.location.pathname === '/admin';
+const isAdminRoute = window.location.pathname.endsWith('/admin') || window.location.search.includes('admin=true');
 
 createRoot(rootElement).render(
   <StrictMode>
